@@ -3,6 +3,15 @@
 import { cn } from "@/lib/utils";
 import React, { useEffect, useRef, memo } from "react";
 
+function SymbolDescription() {
+  return (
+    <div className="flex items-center justify-between w-full px-4 py-2 ">
+      <span className="text-sm text-gray-500">BTCUSD</span>
+      <span className="text-sm text-gray-500">5D</span>
+    </div>
+  );
+}
+
 function TradingViewWidget({ className }: { className?: string }) {
   const container = useRef<HTMLDivElement>(null);
 
@@ -22,6 +31,7 @@ function TradingViewWidget({ className }: { className?: string }) {
           "locale": "en",
           "enable_publishing": false,
           "hide_top_toolbar": true,
+          "hide_legend": true,
           "withdateranges": true,
           "range": "5D",
           "save_image": false,
@@ -57,6 +67,7 @@ function TradingViewWidget({ className }: { className?: string }) {
         overflow: "hidden",
       }}
     >
+      <SymbolDescription />
       <div
         className="tradingview-widget-container__widget"
         style={{
