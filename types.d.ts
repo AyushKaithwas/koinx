@@ -30,3 +30,13 @@ export interface CryptoData {
   pricePoints: PricePoints;
   marketData: MarketData;
 }
+
+export type TrendingCoinType = {
+  coin_id: string;
+  name: string;
+  symbol: string;
+  thumb: string;
+  price: string;
+  price_change_percentage_24h_usd: number;
+  sparkline: string;
+};
