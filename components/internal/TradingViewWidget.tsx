@@ -1,27 +1,19 @@
 // TradingViewWidget.jsx
 "use client";
-import { GetSimplePrice } from "@/actions/getSimplePrice";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React, { useEffect, useRef, memo, useState } from "react";
 import { ChangeIndicator } from "../ui/value-change-indicator";
+import { GetCoinData } from "@/actions/getCoinData";
+import { CoinData } from "@/types";
+import { Skeleton } from "../ui/skeleton";
 
-interface CoinData {
-  [key: string]: {
-    inr: number;
-    inr_24h_change: number;
-    usd: number;
-    usd_24h_change: number;
-  };
-}
-const initialState: CoinData | null = null;
-
-function CoinNameAndRank() {
+function CoinNameAndRank({ coinData }: { coinData: CoinData }) {
   return (
     <>
       <Image
-        src="/images/icons/btc-icon.png"
-        alt="bitcoin"
+        src={coinData.thumb}
+        alt={coinData.name}
         width={100}
         height={100}
         className="w-8 h-8 rounded-full "
@@ -29,54 +21,41 @@ function CoinNameAndRank() {
       <div className="flex gap-2">
         <span className="text-2xl font-semibold">Bitcoin</span>
         <span className="text-[1rem] font-semibold text-muted-secondary">
-          BTC
+          {coinData.symbol.toUpperCase()}
         </span>
       </div>
       <div className="bg-muted-foreground text-white px-2 py-[0.3rem] rounded-md ml-5">
-        Rank #1
+        Rank #{coinData.market_cap_rank}
       </div>
     </>
   );
 }
 
-function SymbolDescription() {
-  const [simplePrice, setSimplePrice] = useState<CoinData | null>(initialState);
-  useEffect(() => {
-    const fetchData = async () => {
-      const fetchSimplePrice = await GetSimplePrice({
-        ids: "bitcoin",
-        vs_currencies: "inr%2Cusd",
-        include_24hr_change: true,
-      });
-      setSimplePrice(fetchSimplePrice);
-    };
-
-    fetchData();
-  }, []);
+function SymbolDescription({ coinData }: { coinData: CoinData }) {
   return (
     <>
       <div className="flex flex-col gap-5 items-start justify-between w-full py-4">
         <div className="md:flex items-center gap-2 py-3 px-2 hidden">
-          <CoinNameAndRank />
+          <CoinNameAndRank coinData={coinData} />
         </div>
         <div className="flex flex-col ml-1">
           <div className="flex md:gap-5 gap-2 items-center justify-between">
             <h2 className="text-3xl font-semibold">
-              ${simplePrice?.bitcoin?.usd.toLocaleString("en-US")}.00
+              ${coinData.price_usd.toLocaleString("en-US")}.00
             </h2>
-            {simplePrice && (
-              <ChangeIndicator
-                change={simplePrice.bitcoin.usd_24h_change}
-                showArrow
-              />
-            )}
+
+            <ChangeIndicator
+              change={coinData.marketData.price_change_percentage_24h}
+              showArrow
+            />
+
             <span className="text-muted-foreground text-[0.875rem]">
               {"(24H)"}
             </span>
           </div>
           <div className="flex items-center justify-between">
             <h2 className="font-medium">
-              ₹ {simplePrice?.bitcoin?.inr.toLocaleString("en-IN")}
+              ₹ {coinData.price_inr.toLocaleString("en-IN")}
             </h2>
           </div>
         </div>
@@ -85,19 +64,32 @@ function SymbolDescription() {
   );
 }
 
-function TradingViewWidget({ className }: { className?: string }) {
+function TradingViewWidget({
+  className,
+  coingeckoId,
+}: {
+  className?: string;
+  coingeckoId: string;
+}) {
   const container = useRef<HTMLDivElement>(null);
-
+  const [coinData, setCoinData] = useState<CoinData | null>(null);
   useEffect(() => {
     const script = document.createElement("script");
-    script.src =
-      "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
-    script.type = "text/javascript";
-    script.async = true;
-    script.innerHTML = `
+
+    const fetchCoin = async () => {
+      const fetchCoinData = await GetCoinData({
+        coidId: coingeckoId,
+      });
+      if (!fetchCoinData) return;
+      setCoinData(fetchCoinData);
+      script.src =
+        "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+      script.type = "text/javascript";
+      script.async = true;
+      script.innerHTML = `
         {
           "autosize": true,
-          "symbol": "BITSTAMP:BTCUSD",
+          "symbol": "BITSTAMP:${coinData?.symbol}USD",
           "timezone": "Etc/UTC",
           "theme": "light",
           "style": "2",
@@ -112,7 +104,8 @@ function TradingViewWidget({ className }: { className?: string }) {
           "hide_volume": true,
           "support_host": "https://www.tradingview.com"
         }`;
-    // Capture the current value of the ref
+    };
+    fetchCoin();
     const currentContainer = container.current;
 
     if (currentContainer) {
@@ -124,12 +117,16 @@ function TradingViewWidget({ className }: { className?: string }) {
         currentContainer.removeChild(script);
       }
     };
-  }, []);
+  }, [coinData?.symbol, coingeckoId]);
 
   return (
     <>
       <div className="md:hidden flex mb-5 gap-2">
-        <CoinNameAndRank />
+        {!coinData ? (
+          <Skeleton className="w-[100px] h-[20px] rounded-full" />
+        ) : (
+          <CoinNameAndRank coinData={coinData} />
+        )}
       </div>
       <div
         className={cn(
@@ -144,7 +141,15 @@ function TradingViewWidget({ className }: { className?: string }) {
           overflow: "hidden",
         }}
       >
-        <SymbolDescription />
+        {!coinData ? (
+          <>
+            <Skeleton className="w-[500px] h-[20px] rounded-full my-10" />
+            <Skeleton className="w-[200px] h-[20px] rounded-full my-10" />
+            <Skeleton className="w-[300px] h-[20px] rounded-full my-10" />
+          </>
+        ) : (
+          <SymbolDescription coinData={coinData} />
+        )}
         <div
           className="tradingview-widget-container__widget"
           style={{

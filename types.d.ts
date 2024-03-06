@@ -40,3 +40,23 @@ export type TrendingCoinType = {
   price_change_percentage_24h_usd: number;
   sparkline: string;
 };
+
+export interface CoinData {
+  id: string;
+  name: string;
+  symbol: string;
+  thumb: string;
+  price_usd: number;
+  price_inr: number;
+  market_cap_rank: number;
+  description: string;
+  marketData: {
+    current_price: number;
+    high_24h: number;
+    low_24h: number;
+    market_cap: number;
+    market_cap_rank: number;
+    total_volume: number;
+    price_change_percentage_24h: number;
+  };
+}
