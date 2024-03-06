@@ -1,5 +1,6 @@
 import { MainLayout } from "@/components/containers/mainLayout";
 import TradingViewWidget from "@/components/internal/TradingViewWidget";
+import { AboutCard } from "@/components/internal/about-card";
 import { Menu } from "@/components/internal/menu";
 import { PerformanceCard } from "@/components/internal/performance-card";
 import { SentimentCard } from "@/components/internal/sentiment-card";
@@ -16,6 +17,7 @@ export default function Home() {
         <Menu />
         <PerformanceCard />
         <SentimentCard />
+        <AboutCard />
       </div>
     </MainLayout>
   );
