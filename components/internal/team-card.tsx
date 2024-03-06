@@ -40,7 +40,7 @@ export function TeamCard({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "flex flex-col w-full md:px-5 px-1 gap-4 pt-6 pb-10 rounded-xl bg-white",
+        "flex flex-col w-full md:px-5 px-1 gap-4 pt-6 pb-10 rounded-xl bg-white md:border-0 border",
         className
       )}
     >

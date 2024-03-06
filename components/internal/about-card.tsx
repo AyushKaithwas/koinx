@@ -47,7 +47,7 @@ const bgGradient2 = {
 
 export function AboutCard() {
   return (
-    <div className="flex flex-col w-full md:px-5 px-1 pt-6 pb-10 rounded-xl bg-white">
+    <div className="flex flex-col w-full md:px-5 px-1 pt-6 pb-10 rounded-xl bg-white md:border-0 border">
       <h2 className="font-semibold text-2xl">About Bitcoin</h2>
       <div className="flex flex-col border-b py-5 gap-2">
         <h3 className="font-bold text-lg">What is Bitcoin?</h3>

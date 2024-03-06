@@ -240,9 +240,9 @@ export function PerformanceCard() {
   }, []);
 
   return (
-    <div className="flex flex-col w-full md:px-5 px-1 pt-6 pb-10 rounded-xl gap-5 bg-white">
+    <div className="flex flex-col w-full md:px-5 px-1 pt-6 pb-10 rounded-xl bg-white md:border-0 border">
+      <h2 className="text-2xl font-semibold">Performance</h2>
       <div className="flex flex-col w-full gap-5">
-        <h2 className="text-2xl font-semibold">Performance</h2>
         <HighLowGradientLine showArrow />
         <HighLowGradientLine />
         <Fundamentals cryptoData={cryptoData} />

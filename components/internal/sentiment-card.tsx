@@ -40,7 +40,7 @@ function CarouselItemEach({
 
 export function SentimentCard() {
   return (
-    <div className="flex flex-col w-full md:px-5 px-1 pt-6 pb-10 rounded-xl gap-7 bg-white">
+    <div className="flex flex-col w-full md:px-5 px-1 pt-6 pb-10 rounded-xl gap-7 bg-white md:border-0 border">
       <div className="flex flex-col gap-3">
         <h2 className="font-semibold text-2xl">Sentiment</h2>
         <div className="flex items-center gap-2">
