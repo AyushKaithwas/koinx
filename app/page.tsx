@@ -4,8 +4,7 @@ import { AboutCard } from "@/components/internal/about-card";
 import { Menu } from "@/components/internal/menu";
 import { PerformanceCard } from "@/components/internal/performance-card";
 import { SentimentCard } from "@/components/internal/sentiment-card";
-
-import Image from "next/image";
+import { TokenomicsCard } from "@/components/internal/tokenomics";
 
 export default function Home() {
   return (
@@ -18,6 +17,7 @@ export default function Home() {
         <PerformanceCard />
         <SentimentCard />
         <AboutCard />
+        <TokenomicsCard className="md:flex hidden" />
       </div>
     </MainLayout>
   );
