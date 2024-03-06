@@ -4,31 +4,60 @@ import { CryptoData, MarketData } from "@/types";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
+// const initialState: CryptoData = {
+//   pricePoints: {
+//     todayLow: 0,
+//     todayHigh: 0,
+//     weekLow: 0,
+//     weekHigh: 0,
+//     week52Low: 0,
+//     week52High: 0,
+//   },
+//   marketData: {
+//     price: 0,
+//     marketCap: 0,
+//     marketCapDominance: 0,
+//     volume: 0,
+//     volumeMarketCapRatio: 0,
+//     marketCapRank: 0,
+//     allTimeHigh: {
+//       value: 0,
+//       percentageChange: 0,
+//       date: "",
+//     },
+//     allTimeLow: {
+//       value: 0,
+//       percentageChange: 0,
+//       date: "",
+//     },
+//   },
+// };
+
 const initialState: CryptoData = {
   pricePoints: {
-    todayLow: 0,
-    todayHigh: 0,
-    weekLow: 0,
-    weekHigh: 0,
-    week52Low: 0,
-    week52High: 0,
+    todayLow: 46930.22, // Example value for Today's Low
+    todayHigh: 49343.83, // Example value for Today's High
+    weekLow: 16382.07, // Example value for 7d Low
+    weekHigh: 16784.12, // Example value for 7d High
+    week52Low: 16930.22, // Example value for 52W Low
+    week52High: 49743.83, // Example value for 52W High
   },
   marketData: {
-    price: 0,
-    marketCap: 0,
-    marketCapDominance: 0,
-    volume: 0,
-    volumeMarketCapRatio: 0,
-    marketCapRank: 0,
+    price: 16815.46, // Example value for Bitcoin Price
+    marketCap: 323507290047, // Example value for Market Cap
+    marketCapDominance: 38.343, // Example value for Market Cap Dominance
+    volume: 23149202782, // Example value for Trading Volume
+    volumeMarketCapRatio: 0.0718, // Example value for Volume/Market Cap
+    marketCapRank: 1, // Example value for Market Cap Rank
     allTimeHigh: {
-      value: 0,
-      percentageChange: 0,
-      date: "",
+      value: 69044.77, // Example value for All-Time High
+      percentageChange: -75.6, // Example percentage change from All-Time High
+      date: "Nov 10, 2021", // Example date for All-Time High
     },
     allTimeLow: {
-      value: 0,
-      percentageChange: 0,
-      date: "",
+      value: 67.81, // Example value for All-Time Low
+      percentageChange: 24729.1, // Example percentage change from All-Time Low
+      date: "Jul 06, 2013", // Example date for All-Time Low
     },
   },
 };
@@ -43,81 +72,6 @@ const gradientStyle = {
     #C2CB21 60%, 
     #11EB68 100%
   )`,
-};
-
-const formatKeyName = (key: string) => {
-  const map: { [key: string]: string } = {
-    todayLow: "Today's Low",
-    todayHigh: "Today's High",
-    weekLow: "7d Low",
-    weekHigh: "7d High",
-    week52Low: "52W Low",
-    week52High: "52W High",
-    price: "Bitcoin Price",
-    marketCap: "Market Cap",
-    marketCapDominance: "Market Cap Dominance",
-    volume: "Trading Volume",
-    volumeMarketCapRatio: "Volume / Market Cap",
-    marketCapRank: "Market Cap Rank",
-    allTimeHigh: "All-Time High",
-    allTimeLow: "All-Time Low",
-  };
-
-  return map[key] || key;
-};
-
-const formatField = (key: string, value: number) => {
-  switch (key) {
-    case "marketCap":
-    case "price":
-    case "volume":
-      return value.toLocaleString("en-US", {
-        style: "currency",
-        currency: "USD",
-      });
-    case "marketCapDominance":
-    case "volumeMarketCapRatio":
-      return `${value.toFixed(2)}%`; // assuming these should be shown as percentages
-    case "marketCapRank":
-      return `#${value}`; // assuming rank should be prefixed with a hash
-    default:
-      return value.toLocaleString(); // default numeric formatting
-  }
-};
-
-const renderData = (cryptoData: CryptoData) => {
-  const combinedData = {
-    ...cryptoData.pricePoints,
-    ...cryptoData.marketData,
-  };
-  return Object.entries(combinedData)
-    .map(([key, value]) => {
-      if (typeof value === "number" || (value && "value" in value)) {
-        // Call formatField appropriately based on whether value is a number or an object
-        const displayValue =
-          typeof value === "number"
-            ? formatField(key, value)
-            : formatComplexField(key, value);
-
-        return (
-          <div key={key} className="flex w-[40%] justify-between my-2">
-            <span className="text-sm text-[#44475B]">{formatKeyName(key)}</span>
-            <span className="font-medium">{displayValue}</span>
-          </div>
-        );
-      }
-    })
-    .filter(Boolean); // Filter out null values (non-numeric fields)
-};
-
-const formatComplexField = (
-  key: string,
-  value: { value: number; percentageChange: number; date: string }
-) => {
-  return `${formatField(key, value.value)} (${value.percentageChange.toFixed(
-    2
-  )}%, ${value.date})`;
-  // Format the object containing value, percentageChange, and date...
 };
 
 function HighLowGradientLine({ showArrow }: { showArrow?: boolean }) {
@@ -154,11 +108,82 @@ function HighLowGradientLine({ showArrow }: { showArrow?: boolean }) {
   );
 }
 
-function Fundamentals({ cryptoData }: { cryptoData: CryptoData }) {
-  const cryptoDataEntries = renderData(cryptoData);
-
+function AllTimeHigh({
+  allTimeHigh,
+}: {
+  allTimeHigh: MarketData["allTimeHigh"];
+}) {
   return (
-    <div>
+    <div className="flex flex-col justify-center items-end">
+      <div className="flex  text-[#44475B] gap-2">
+        <span className="text-sm ">
+          {allTimeHigh.value.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+          })}
+        </span>
+        <span
+          className={cn(
+            "font-medium",
+            allTimeHigh.percentageChange > 0 ? "text-green-400" : "text-red-400"
+          )}
+        >
+          {allTimeHigh.percentageChange}%
+        </span>
+      </div>
+      <div className="flex text-[#44475B] gap-2">
+        <span className="text-sm">{allTimeHigh.date} </span>
+        <span className="font-medium">{`about 1 year`}</span>
+      </div>
+    </div>
+  );
+}
+
+function AllTimeLow({ allTimeLow }: { allTimeLow: MarketData["allTimeLow"] }) {
+  return (
+    <div className="flex flex-col justify-center items-end">
+      <div className="flex  text-[#44475B] gap-2">
+        <span className="text-sm ">
+          {allTimeLow.value.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+          })}
+        </span>
+        <span
+          className={cn(
+            "font-medium",
+            allTimeLow.percentageChange > 0 ? "text-green-400" : "text-red-400"
+          )}
+        >
+          {allTimeLow.percentageChange}%
+        </span>
+      </div>
+      <div className="flex text-[#44475B] gap-2">
+        <span className="text-sm">{allTimeLow.date} </span>
+        <span className="font-medium">{`about 1 year`}</span>
+      </div>
+    </div>
+  );
+}
+
+function DataPoints({
+  children,
+  dataName,
+}: {
+  children: React.ReactNode;
+  dataName: string;
+}) {
+  return (
+    <div className="flex gap-2 justify-between items-center h-[3.8rem] border-b">
+      <h2 className="text-sm text-muted-foreground">{dataName}</h2>
+      <span className="text-sm">{children}</span>
+    </div>
+  );
+}
+
+function Fundamentals({ cryptoData }: { cryptoData: CryptoData }) {
+  return (
+    <div className="w-full">
       <div className="flex items-center gap-2">
         <h2 className="font-semibold text-[1.2rem]">Fundamentals</h2>
         <Image
@@ -169,7 +194,67 @@ function Fundamentals({ cryptoData }: { cryptoData: CryptoData }) {
           className="cursor-pointer w-5 h-5"
         />
       </div>
-      {cryptoDataEntries}
+      <div className="w-full flex-col md:flex-row flex justify-between">
+        <div className=" md:w-[46%] w-full px-2 md:px-0">
+          <DataPoints dataName="Bitcoin Price">
+            {cryptoData.marketData.price.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </DataPoints>
+          <DataPoints dataName="24h Low / 24h High">
+            {cryptoData.pricePoints.todayLow.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}{" "}
+            /{" "}
+            {cryptoData.pricePoints.todayHigh.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </DataPoints>
+          <DataPoints dataName="7d Low / 7d High">
+            {cryptoData.pricePoints.weekLow.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}{" "}
+            /{" "}
+            {cryptoData.pricePoints.weekHigh.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </DataPoints>
+          <DataPoints dataName="Trading Volume">
+            {cryptoData.marketData.volume.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </DataPoints>
+          <DataPoints dataName="Market Cap Rank">
+            #{cryptoData.marketData.marketCapRank}
+          </DataPoints>
+        </div>
+        <div className=" md:w-[46%] w-full px-2 md:px-0">
+          <DataPoints dataName="Market Cap">
+            {cryptoData.marketData.marketCap.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </DataPoints>
+          <DataPoints dataName="Market Cap Dominance">
+            {cryptoData.marketData.marketCapDominance}%
+          </DataPoints>
+          <DataPoints dataName="Volume / Market Cap">
+            {cryptoData.marketData.volumeMarketCapRatio}
+          </DataPoints>
+          <DataPoints dataName="All-Time High">
+            <AllTimeHigh allTimeHigh={cryptoData.marketData.allTimeHigh} />
+          </DataPoints>
+          <DataPoints dataName="All-Time Low">
+            <AllTimeLow allTimeLow={cryptoData.marketData.allTimeLow} />
+          </DataPoints>
+        </div>
+      </div>
     </div>
   );
 }
@@ -181,8 +266,8 @@ export function PerformanceCard() {
   }, []);
 
   return (
-    <div className="flex flex-col w-full h-[45rem] md:px-5 px-1 py-4 rounded-xl gap-5 bg-white">
-      <div className="flex flex-col w-full h-[45rem] gap-5">
+    <div className="flex flex-col w-full md:px-5 px-1 pt-6 pb-10 rounded-xl gap-5 bg-white">
+      <div className="flex flex-col w-full gap-5">
         <h2 className="text-2xl font-semibold">Performance</h2>
         <HighLowGradientLine showArrow />
         <HighLowGradientLine />
