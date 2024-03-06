@@ -9,7 +9,7 @@ export function MainLayout({
   className?: string;
 }) {
   return (
-    <div className={cn("flex flex-col p-10 min-h-[80vh]", className)}>
+    <div className={cn("flex flex-col md:p-10 p-5 min-h-[80vh]", className)}>
       {children}
     </div>
   );
