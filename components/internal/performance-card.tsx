@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@/lib/utils";
+import { calculateTimeDifference, cn, formatCurrency } from "@/lib/utils";
 import { CryptoData, MarketData } from "@/types";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
@@ -74,6 +74,9 @@ const gradientStyle = {
   )`,
 };
 
+const LOCALE = "en-US";
+const CURRENCY = "USD";
+
 function HighLowGradientLine({ showArrow }: { showArrow?: boolean }) {
   return (
     <div>
@@ -107,60 +110,39 @@ function HighLowGradientLine({ showArrow }: { showArrow?: boolean }) {
     </div>
   );
 }
+type AllTimeHighLowProps = {
+  value: number;
+  percentageChange: number;
+  date: string;
+  isHigh: boolean;
+};
 
-function AllTimeHigh({
-  allTimeHigh,
-}: {
-  allTimeHigh: MarketData["allTimeHigh"];
-}) {
+function AllTimeHighLow({
+  value,
+  percentageChange,
+  date,
+  isHigh,
+}: AllTimeHighLowProps) {
+  const timeDifference = calculateTimeDifference(date);
+
   return (
     <div className="flex flex-col justify-center items-end">
       <div className="flex  text-[#44475B] gap-2">
-        <span className="text-sm ">
-          {allTimeHigh.value.toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD",
-          })}
+        <span className="text-sm">
+          {formatCurrency(value, LOCALE, CURRENCY)}
         </span>
         <span
           className={cn(
             "font-medium",
-            allTimeHigh.percentageChange > 0 ? "text-green-400" : "text-red-400"
+            percentageChange > 0 ? "text-green-400" : "text-red-400"
           )}
         >
-          {allTimeHigh.percentageChange}%
+          {percentageChange}%
         </span>
       </div>
       <div className="flex text-[#44475B] gap-2">
-        <span className="text-sm">{allTimeHigh.date} </span>
-        <span className="font-medium">{`about 1 year`}</span>
-      </div>
-    </div>
-  );
-}
-
-function AllTimeLow({ allTimeLow }: { allTimeLow: MarketData["allTimeLow"] }) {
-  return (
-    <div className="flex flex-col justify-center items-end">
-      <div className="flex  text-[#44475B] gap-2">
-        <span className="text-sm ">
-          {allTimeLow.value.toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD",
-          })}
-        </span>
-        <span
-          className={cn(
-            "font-medium",
-            allTimeLow.percentageChange > 0 ? "text-green-400" : "text-red-400"
-          )}
-        >
-          {allTimeLow.percentageChange}%
-        </span>
-      </div>
-      <div className="flex text-[#44475B] gap-2">
-        <span className="text-sm">{allTimeLow.date} </span>
-        <span className="font-medium">{`about 1 year`}</span>
+        <span className="text-sm">{date} </span>
+        <span className="font-medium">{timeDifference}</span>
       </div>
     </div>
   );
@@ -197,38 +179,19 @@ function Fundamentals({ cryptoData }: { cryptoData: CryptoData }) {
       <div className="w-full flex-col md:flex-row flex justify-between">
         <div className=" md:w-[46%] w-full px-2 md:px-0">
           <DataPoints dataName="Bitcoin Price">
-            {cryptoData.marketData.price.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
+            {formatCurrency(cryptoData.marketData.price, LOCALE, CURRENCY)}
           </DataPoints>
           <DataPoints dataName="24h Low / 24h High">
-            {cryptoData.pricePoints.todayLow.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}{" "}
+            {formatCurrency(cryptoData.pricePoints.todayLow, LOCALE, CURRENCY)}{" "}
             /{" "}
-            {cryptoData.pricePoints.todayHigh.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
+            {formatCurrency(cryptoData.pricePoints.todayHigh, LOCALE, CURRENCY)}{" "}
           </DataPoints>
           <DataPoints dataName="7d Low / 7d High">
-            {cryptoData.pricePoints.weekLow.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}{" "}
-            /{" "}
-            {cryptoData.pricePoints.weekHigh.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
+            {formatCurrency(cryptoData.pricePoints.weekLow, LOCALE, CURRENCY)} /{" "}
+            {formatCurrency(cryptoData.pricePoints.weekHigh, LOCALE, CURRENCY)}
           </DataPoints>
           <DataPoints dataName="Trading Volume">
-            {cryptoData.marketData.volume.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
+            {formatCurrency(cryptoData.marketData.volume, LOCALE, CURRENCY)}
           </DataPoints>
           <DataPoints dataName="Market Cap Rank">
             #{cryptoData.marketData.marketCapRank}
@@ -236,10 +199,7 @@ function Fundamentals({ cryptoData }: { cryptoData: CryptoData }) {
         </div>
         <div className=" md:w-[46%] w-full px-2 md:px-0">
           <DataPoints dataName="Market Cap">
-            {cryptoData.marketData.marketCap.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
+            {formatCurrency(cryptoData.marketData.marketCap, LOCALE, CURRENCY)}
           </DataPoints>
           <DataPoints dataName="Market Cap Dominance">
             {cryptoData.marketData.marketCapDominance}%
@@ -248,10 +208,24 @@ function Fundamentals({ cryptoData }: { cryptoData: CryptoData }) {
             {cryptoData.marketData.volumeMarketCapRatio}
           </DataPoints>
           <DataPoints dataName="All-Time High">
-            <AllTimeHigh allTimeHigh={cryptoData.marketData.allTimeHigh} />
+            <AllTimeHighLow
+              value={cryptoData.marketData.allTimeHigh.value}
+              percentageChange={
+                cryptoData.marketData.allTimeHigh.percentageChange
+              }
+              date={cryptoData.marketData.allTimeHigh.date}
+              isHigh
+            />
           </DataPoints>
           <DataPoints dataName="All-Time Low">
-            <AllTimeLow allTimeLow={cryptoData.marketData.allTimeLow} />
+            <AllTimeHighLow
+              value={cryptoData.marketData.allTimeLow.value}
+              percentageChange={
+                cryptoData.marketData.allTimeLow.percentageChange
+              }
+              date={cryptoData.marketData.allTimeLow.date}
+              isHigh={false}
+            />
           </DataPoints>
         </div>
       </div>
