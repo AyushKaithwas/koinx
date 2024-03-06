@@ -11,7 +11,7 @@ export function MainLayout({
   return (
     <div
       className={cn(
-        "flex flex-col md:p-10 p-5 min-h-[80vh] overflow-x-hidden",
+        "flex flex-col md:py-8 md:px-16 p-5 min-h-[80vh] overflow-x-hidden",
         className
       )}
     >
