@@ -1,14 +1,5 @@
 "use client";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-} from "../ui/navigation-menu";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -81,7 +72,7 @@ export function Navbar({ className }: { className?: string }) {
   return (
     <nav
       className={cn(
-        "w-full bg-background flex items-center z-10 md:px-14 md:py-2 sticky top-0 px-5 shadow-sm",
+        "w-full bg-background flex items-center z-10 md:px-14  sticky top-0 px-5 shadow-sm",
         className
       )}
     >
@@ -92,7 +83,7 @@ export function Navbar({ className }: { className?: string }) {
             alt="hamburger menu"
             width={20}
             height={20}
-            className="w-20 h-20 "
+            className="w-24 h-24"
           />
         </Link>
 
