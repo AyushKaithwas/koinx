@@ -1,7 +1,5 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { MoveRight } from "lucide-react";
 
 export function TokenomicsCard({ className }: { className?: string }) {
   return (
