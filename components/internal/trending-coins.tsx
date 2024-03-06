@@ -50,19 +50,15 @@ export function TrendingCoin({ trendingCoinData }: TrendingCoinProps) {
         />
       </div>
       <h2 className="font-medium text-lg">{price}</h2>
-      <Image
-        src={"https://www.coingecko.com/coins/19059/sparkline.svg"}
-        alt="sparkline"
-        width={100}
-        height={100}
-      />
+      <Image src={sparkline} alt="sparkline" width={100} height={100} />
     </div>
   );
 }
 
 export async function TrendingCoins() {
   //fetch data here using server action
-  const trendingCoinsData: TrendingCoinType[] = await GetTrendingCoins();
+  const trendingCoinsData = await GetTrendingCoins();
+  if (!trendingCoinsData) return null;
   //   const trendingCoinsDataSample = ;
   return (
     <div className="flex flex-col w-full gap-5 p-2 bg-white md:rounded-none rounded-b-lg border-l border-r md:border-0 border-b">
