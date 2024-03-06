@@ -39,9 +39,6 @@ const navigation = [
 const buttonGradientBg = {
   background: "linear-gradient(to right, #2870EA, #1B4AEF)", // Example gradient
 };
-const shadowStyle = {
-  filter: "drop-shadow(0 1px 12px hsl(217, 64, 18, 6))",
-};
 
 function HamburgerMenu() {
   return (
@@ -83,9 +80,8 @@ function HamburgerMenu() {
 export function Navbar({ className }: { className?: string }) {
   return (
     <nav
-      style={shadowStyle}
       className={cn(
-        "w-full bg-background flex items-center z-10 md:px-14 md:py-2 sticky top-0 px-5",
+        "w-full bg-background flex items-center z-10 md:px-14 md:py-2 sticky top-0 px-5 shadow-sm",
         className
       )}
     >
