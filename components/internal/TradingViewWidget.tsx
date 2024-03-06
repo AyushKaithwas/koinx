@@ -4,6 +4,7 @@ import { GetSimplePrice } from "@/actions/getSimplePrice";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React, { useEffect, useRef, memo, useState } from "react";
+import { ChangeIndicator } from "../ui/value-change-indicator";
 
 interface CoinData {
   [key: string]: {
@@ -38,31 +39,6 @@ function CoinNameAndRank() {
   );
 }
 
-function ChangeIndicator(change: number) {
-  const isPositive = change >= 0;
-  const colorClass = isPositive
-    ? "text-green-500 bg-green-100"
-    : "text-red-500 bg-red-100";
-  const arrowPath = isPositive
-    ? "M4 9H11L7.5 4.5L4 9Z" // Up arrow
-    : "M4 6H11L7.5 10.5L4 6Z"; // Down arrow
-
-  return (
-    <div className={cn("flex items-center p-[0.2rem] rounded-md", colorClass)}>
-      <svg
-        width="25"
-        height="25"
-        viewBox="0 0 15 15"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d={arrowPath} fill="currentColor"></path>
-      </svg>
-      <span className="ml-1">{change.toFixed(2)}%</span>
-    </div>
-  );
-}
-
 function SymbolDescription() {
   const [simplePrice, setSimplePrice] = useState<CoinData | null>(initialState);
   useEffect(() => {
@@ -88,7 +64,12 @@ function SymbolDescription() {
             <h2 className="text-3xl font-semibold">
               ${simplePrice?.bitcoin?.usd.toLocaleString("en-US")}.00
             </h2>
-            {simplePrice && ChangeIndicator(simplePrice.bitcoin.usd_24h_change)}
+            {simplePrice && (
+              <ChangeIndicator
+                change={simplePrice.bitcoin.usd_24h_change}
+                showArrow
+              />
+            )}
             <span className="text-muted-foreground text-[0.875rem]">
               {"(24H)"}
             </span>
