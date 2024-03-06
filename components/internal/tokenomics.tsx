@@ -3,42 +3,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { MoveRight } from "lucide-react";
 
-function AlternateCard({
-  title,
-  image,
-  imageAlt,
-  bgGradient,
-}: {
-  title: string;
-  image: string;
-  imageAlt: string;
-  bgGradient: React.CSSProperties;
-}) {
-  return (
-    <div
-      className={cn("flex flex-col rounded-xl bg-green-200 p-4 max-w-[25rem]")}
-      style={bgGradient}
-    >
-      <div className="flex gap-4 items-center">
-        <Image
-          src={image}
-          alt={imageAlt}
-          width={600}
-          height={400}
-          className=" w-32"
-        />
-        <div className="flex flex-col gap-4 w-[40%]">
-          <h3 className="text-white font-bold text-xl">{title}</h3>
-          <Button variant={"secondary"} className="gap-3 font-semibold">
-            Check Now
-            <MoveRight />
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function TokenomicsCard({ className }: { className?: string }) {
   return (
     <div
