@@ -32,7 +32,7 @@ export function TrendingCoin({ trendingCoinData }: TrendingCoinProps) {
     price_change_percentage_24h_usd,
     sparkline,
   } = trendingCoinData;
-  console.log(sparkline);
+  // console.log(sparkline);
   return (
     <div className="flex flex-col items-start gap-2 rounded-xl md:p-4 p-1 bg-white border">
       <div className="flex items-center gap-2">

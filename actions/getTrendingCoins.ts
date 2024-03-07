@@ -5,7 +5,7 @@ import { TrendingCoinType } from "@/types";
 export async function GetTrendingCoins(): Promise<TrendingCoinType[] | null> {
   try {
     const response = await fetch(
-      `${process.env.api_url}${process.env.trending_coins_path}?x_cg_demo_api_key=${process.env.api_key}`
+      `${process.env.api_url}${process.env.trending_coins_path}`
     );
     const data = await response.json();
     // Regex to match only the valid price format (dollars and cents)
