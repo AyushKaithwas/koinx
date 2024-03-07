@@ -27,9 +27,13 @@ const navigation = [
   },
 ];
 
-const buttonGradientBg = {
-  background: "linear-gradient(to right, #2870EA, #1B4AEF)", // Example gradient
-};
+function GetStartedButton() {
+  return (
+    <Button className="font-semibold text-md bg-gradient-to-r from-[#2870EA] to-[#1B4AEF] hover:from-[#468BFF] hover:to-[#446DFF] transition-all">
+      Get Started
+    </Button>
+  );
+}
 
 function HamburgerMenu() {
   return (
@@ -60,9 +64,7 @@ function HamburgerMenu() {
             </DropdownMenuItem>
           </Link>
         ))}
-        <Button className="font-semibold py-1 m-2" style={buttonGradientBg}>
-          Get Started
-        </Button>
+        <GetStartedButton />
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -101,12 +103,7 @@ export function Navbar({ className }: { className?: string }) {
               );
             })}
             <li>
-              <Button
-                className="font-semibold text-md"
-                style={buttonGradientBg}
-              >
-                Get Started
-              </Button>
+              <GetStartedButton />
             </li>
           </ul>
         </div>

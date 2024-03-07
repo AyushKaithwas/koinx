@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 import { useState } from "react";
 
 const menu = [
@@ -20,7 +21,8 @@ export function Menu() {
       {menu.map((item) => {
         const isActive = activeItem == item.name;
         return (
-          <span
+          <Link
+            href={`#${item.name.toLowerCase()}`}
             key={item.name}
             style={{
               borderBottom: isActive
@@ -34,7 +36,7 @@ export function Menu() {
             onClick={() => setActiveItem(item.name)}
           >
             {item.name}
-          </span>
+          </Link>
         );
       })}
     </div>

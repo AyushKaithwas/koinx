@@ -17,7 +17,7 @@ export function GetStarted() {
         height={400}
         className=" w-40"
       />
-      <Button className="bg-secondary text-secondary-foreground font-semibold">
+      <Button variant={"secondary"} className="font-semibold hover:bg-white/80">
         Get Started for FREE <MoveRight />
       </Button>
     </div>
