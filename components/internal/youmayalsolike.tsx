@@ -10,7 +10,8 @@ import { TrendingCoin } from "./trending-coins";
 import { type TrendingCoinType } from "@/types";
 
 export async function YouMayAlsoLike() {
-  const trendingCoinsData: TrendingCoinType[] = await GetTrendingCoins();
+  const trendingCoinsData = await GetTrendingCoins();
+  if (!trendingCoinsData) return null;
   return (
     <div className="flex flex-col w-full gap-5 bg-white p-2 md:rounded-none rounded-t-lg border-l border-r md:border-0 border-t">
       <h2 className="md:text-2xl text-xl font-semibold">You May Also Like</h2>
