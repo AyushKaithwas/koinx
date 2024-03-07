@@ -58,5 +58,9 @@ export interface CoinData {
     market_cap_rank: number;
     total_volume: number;
     price_change_percentage_24h: number;
+    all_time_high: number;
+    all_time_high_date: string;
+    all_time_low: number;
+    all_time_low_date: string;
   };
 }
