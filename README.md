@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+````markdown
+# KoinX Cryptocurrency Taxation Platform
 
-## Getting Started
+Welcome to the GitHub repository for the frontend of KoinX, a cutting-edge financial technology platform specializing in simplifying the complex world of cryptocurrency taxation. This project is a demonstration of the KoinX interface, developed as a part of a take-home assignment.
 
-First, run the development server:
+## About KoinX
+
+KoinX is dedicated to providing innovative solutions for cryptocurrency investors and businesses, helping them navigate the rapidly evolving landscape of cryptocurrency taxation. As a seed-funded company, we're backed by a panel of marquee funds and angel investors, committed to revolutionizing how crypto taxes are calculated and managed.
+
+## Project Overview
+
+This Next.js website is designed to closely follow a provided Figma design, implementing various components and functionalities, including real-time cryptocurrency prices, trending coins, and interactive charts.
+
+### Mandatory Tasks
+
+- All components are implemented as per the Figma design specifications.
+- Real-time Bitcoin prices in USD and INR, including the 24-hour change, are fetched using Coingecko’s `/simple/price` API.
+- The Bitcoin USD price chart is integrated using TradingView’s advanced chart widget.
+- The top 3 trending coins over the last 24 hours are displayed using Coingecko’s `/search/trending` API.
+- A "You May Also Like" section features trending coins with details and price graphs, implemented as a horizontally scrollable carousel.
+- The UI is fully responsive, adhering to the Figma design's responsiveness guidelines.
+- Placeholder texts/images are used where specific API data or integrations are not required.
+
+### Optional Task
+
+- The website supports dynamic token display (e.g., `/bitcoin`, `/ethereum`) based on the URL, fetching and displaying data and charts specific to the requested cryptocurrency.
+
+## Technologies Used
+
+- **Next.js**: for SSR and SSG, enhancing the performance and SEO of the web application.
+- **Coingecko API**: for fetching real-time cryptocurrency data.
+- **TradingView Widget**: for embedding interactive cryptocurrency charts.
+- **Netlify/Vercel**: for deployment and hosting of the web application.
+
+## Deployment
+
+This project is deployed on [Vercel]. Check out the live version here: [Link to the deployed site]
+
+## Local Setup
+
+To set up and run this project locally, follow these steps:
+
+1. Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/AyushKaithwas/koinx
+```
+````
+
+2. Install dependencies:
+
+```bash
+pnpm install
+```
+
+3. Run the development server:
+
+```bash
+pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## License
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Distributed under the MIT License. See `LICENSE` for more information.
 
-## Learn More
+## Contact
 
-To learn more about Next.js, take a look at the following resources:
+Ayush Kaithwas - [ayush.91011@gmail.com]
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Project Link: [https://github.com/AyushKaithwas]
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
