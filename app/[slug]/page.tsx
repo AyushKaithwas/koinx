@@ -1,3 +1,4 @@
+import { GetCoinData } from "@/actions/getCoinData";
 import { MainLayout } from "@/components/containers/mainLayout";
 import TradingViewWidget from "@/components/internal/TradingViewWidget";
 import { AboutCard } from "@/components/internal/about-card";
@@ -12,21 +13,31 @@ import { TrendingCoin24h } from "@/components/internal/trendingCoins24h";
 import { YouMayAlsoLike } from "@/components/internal/youmayalsolike";
 import Image from "next/image";
 
-export default function Home({ params }: { params: { slug: string } }) {
-  console.log(params);
+export default async function Home({ params }: { params: { slug: string } }) {
+  // console.log(params);
+  const fetchCoinData = await GetCoinData({
+    coidId: params.slug,
+  });
+  if (!fetchCoinData) {
+    return (
+      <MainLayout>
+        <h2>Sorry, we were unable to fetch the data of {params.slug}</h2>
+      </MainLayout>
+    );
+  }
   return (
     <>
       <MainLayout className="xl:flex-row flex-col gap-5">
         <div className="flex flex-col xl:w-[100%] h-full rounded-3xl gap-5">
           <div className="flex flex-col  w-full h-[45rem]">
-            <TradingViewWidget coingeckoId={params.slug} />
+            <TradingViewWidget coinData={fetchCoinData} />
           </div>
           <Menu />
-          <PerformanceCard />
-          <SentimentCard />
-          <AboutCard />
-          <TokenomicsCard className="md:flex hidden" />
-          <TeamCard />
+          <PerformanceCard coinData={fetchCoinData} />
+          <SentimentCard id={"sentiments"} />
+          <AboutCard coinData={fetchCoinData} />
+          <TokenomicsCard id="tokenomics" className="md:flex hidden" />
+          <TeamCard id="team" />
         </div>
         <div className="flex flex-col gap-5">
           <GetStarted />
