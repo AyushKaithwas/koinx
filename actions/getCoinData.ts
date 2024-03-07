@@ -26,6 +26,10 @@ export async function GetCoinData({ coidId }: { coidId: string }) {
         total_volume: data.market_data.total_volume.usd,
         price_change_percentage_24h:
           data.market_data.price_change_percentage_24h,
+        all_time_high: data.market_data.ath.usd,
+        all_time_low: data.market_data.atl.usd,
+        all_time_high_date: data.market_data.ath_date.usd,
+        all_time_low_date: data.market_data.atl_date.usd,
       },
     };
 
