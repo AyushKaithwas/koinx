@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React, { useEffect, useRef, memo, useState } from "react";
 import { ChangeIndicator } from "../ui/value-change-indicator";
-import { GetCoinData } from "@/actions/getCoinData";
 import { CoinData } from "@/types";
 import { Skeleton } from "../ui/skeleton";
 
@@ -19,7 +18,7 @@ function CoinNameAndRank({ coinData }: { coinData: CoinData }) {
         className="w-8 h-8 rounded-full "
       />
       <div className="flex gap-2">
-        <span className="text-2xl font-semibold">Bitcoin</span>
+        <span className="text-2xl font-semibold">{coinData.name}</span>
         <span className="text-[1rem] font-semibold text-muted-secondary">
           {coinData.symbol.toUpperCase()}
         </span>
@@ -65,28 +64,20 @@ function SymbolDescription({ coinData }: { coinData: CoinData }) {
 }
 
 function TradingViewWidget({
+  coinData,
   className,
-  coingeckoId,
 }: {
+  coinData: CoinData;
   className?: string;
-  coingeckoId: string;
 }) {
   const container = useRef<HTMLDivElement>(null);
-  const [coinData, setCoinData] = useState<CoinData | null>(null);
   useEffect(() => {
     const script = document.createElement("script");
-
-    const fetchCoin = async () => {
-      const fetchCoinData = await GetCoinData({
-        coidId: coingeckoId,
-      });
-      if (!fetchCoinData) return;
-      setCoinData(fetchCoinData);
-      script.src =
-        "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
-      script.type = "text/javascript";
-      script.async = true;
-      script.innerHTML = `
+    script.src =
+      "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+    script.type = "text/javascript";
+    script.async = true;
+    script.innerHTML = `
         {
           "autosize": true,
           "symbol": "BITSTAMP:${coinData?.symbol}USD",
@@ -104,8 +95,6 @@ function TradingViewWidget({
           "hide_volume": true,
           "support_host": "https://www.tradingview.com"
         }`;
-    };
-    fetchCoin();
     const currentContainer = container.current;
 
     if (currentContainer) {
@@ -117,7 +106,7 @@ function TradingViewWidget({
         currentContainer.removeChild(script);
       }
     };
-  }, [coinData?.symbol, coingeckoId]);
+  }, [coinData?.symbol]);
 
   return (
     <>

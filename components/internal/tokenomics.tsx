@@ -1,9 +1,13 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-export function TokenomicsCard({ className }: { className?: string }) {
+export function TokenomicsCard({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
+      {...props}
       className={cn(
         "flex flex-col w-full md:px-5 px-1 gap-4 pt-6 pb-10 rounded-xl bg-white",
         className
