@@ -1,4 +1,4 @@
-````markdown
+
 # KoinX Cryptocurrency Taxation Platform
 
 Welcome to the GitHub repository for the frontend of KoinX, a cutting-edge financial technology platform specializing in simplifying the complex world of cryptocurrency taxation. This project is a demonstration of the KoinX interface, developed as a part of a take-home assignment.
@@ -34,7 +34,7 @@ This Next.js website is designed to closely follow a provided Figma design, impl
 
 ## Deployment
 
-This project is deployed on [Vercel]. Check out the live version here: [Link to the deployed site]
+This project is deployed on Vercel. Check out the live version here: [[Link to the deployed site]](https://koinx-ruby.vercel.app/bitcoin)
 
 ## Local Setup
 
@@ -45,7 +45,6 @@ To set up and run this project locally, follow these steps:
 ```bash
 git clone https://github.com/AyushKaithwas/koinx
 ```
-````
 
 2. Install dependencies:
 
@@ -61,16 +60,8 @@ pnpm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
 Ayush Kaithwas - [ayush.91011@gmail.com]
-
-Project Link: [https://github.com/AyushKaithwas]
-
-```
-
-```
+LinkedIn - [https://www.linkedin.com/in/ayush1kaithwas/]
