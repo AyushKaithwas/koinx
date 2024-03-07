@@ -36,14 +36,29 @@ export function calculateTimeDifference(dateString: string): string {
   const timeDiff = currentDate.getTime() - date.getTime();
 
   const years = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 365));
-  const months = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 30.44));
-  const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+  const months = Math.floor(
+    (timeDiff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30.44)
+  );
+  const days = Math.floor(
+    (timeDiff % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24)
+  );
 
   if (years > 0) {
-    return `about ${years} year${years > 1 ? "s" : ""}`;
+    return `about ${years} year${years > 1 ? "s" : ""} ago`;
   } else if (months > 0) {
-    return `about ${months} month${months > 1 ? "s" : ""}`;
+    return `about ${months} month${months > 1 ? "s" : ""} ago`;
+  } else if (days > 0) {
+    return `about ${days} day${days > 1 ? "s" : ""} ago`;
   } else {
-    return `about ${days} day${days > 1 ? "s" : ""}`;
+    return "today";
   }
+}
+
+export function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 }
