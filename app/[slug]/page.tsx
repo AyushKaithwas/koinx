@@ -2,6 +2,7 @@ import { GetCoinData } from "@/actions/getCoinData";
 import { MainLayout } from "@/components/containers/mainLayout";
 import TradingViewWidget from "@/components/internal/TradingViewWidget";
 import { AboutCard } from "@/components/internal/about-card";
+import { CurrentPath } from "@/components/internal/current-path";
 import { GetStarted } from "@/components/internal/get-started-card";
 import { Menu } from "@/components/internal/menu";
 import { PerformanceCard } from "@/components/internal/performance-card";
@@ -29,6 +30,9 @@ export default async function Home({ params }: { params: { slug: string } }) {
     <>
       <MainLayout className="xl:flex-row flex-col gap-5">
         <div className="flex flex-col xl:w-[100%] h-full rounded-3xl gap-5">
+          <CurrentPath>
+            {params.slug.charAt(0).toUpperCase() + params.slug.slice(1)}
+          </CurrentPath>
           <div className="flex flex-col  w-full h-[45rem]">
             <TradingViewWidget coinData={fetchCoinData} />
           </div>
